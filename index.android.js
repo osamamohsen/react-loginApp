@@ -13,6 +13,7 @@ import {
   Navigator,
 } from 'react-native';
 import Login from './app/components/Login';
+import Memberarea from './app/components/Memberarea';
 export default class loginApp extends Component {
   render() {
     return (
@@ -26,6 +27,8 @@ export default class loginApp extends Component {
     switch (route.id) {
       case 'login':
         return (<Login navigator= {navigator} />);
+      case 'Memberarea':
+        return ( <Memberarea navigator= {navigator} />);
     }
   }//END NAVIGATOR FUNCTION
 }
