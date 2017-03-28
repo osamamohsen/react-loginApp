@@ -14,7 +14,7 @@ export default class Login extends Component {
 
   constructor(props){
     super(props);
-    this.state = {username: '', password: ''};
+    this.state = {username: '',password: null};
   }
 
   render() {
@@ -24,23 +24,14 @@ export default class Login extends Component {
           <View style={styles.content}>
             <Text style={styles.logo}>- NATIVE -</Text>
             <View style={styles.inputContainer}>
-
               <TextInput underlineColorAndroid="transparent" style={styles.input}
-
-                onChangeText={(username) => this.setState({username})}
-                value={this.state.username}
-
+                onChangeText={(username) => this.setState({username})} value={this.state.username}
                 placeholder="username" placeholderTextColor="silver"></TextInput>
-
               <TextInput style={styles.input}
                   secureTextEntry={true} underlineColorAndroid="transparent"
-
-                  onChangeText={(password) => this.setState({password})}
-                  value={this.state.password}
-
-                  placeholder="password" placeholderTextColor="silver"></TextInput>
-
-
+                  onChangeText={(password) => this.setState({password})} value={this.state.password}
+                  placeholder="password" placeholderTextColor="silver"
+                  onChangeText={this.state.password}></TextInput>
             </View>
             <TouchableOpacity onPress={this.login} style={styles.buttonContainer}>
               <Text style={styles.buttonText}>
@@ -53,9 +44,12 @@ export default class Login extends Component {
     );
   }
   login = () => {
+    // alert(this.state.username);
+    // alert(this.state.password);
+    //192.168.1.106
     fetch('http://192.168.1.106/ReactProjects/loginApp/backEnd/ReactLogin/public/users',{
         method: "Post",
-          headers: {
+          header: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
