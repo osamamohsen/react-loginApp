@@ -14,7 +14,7 @@ export default class Login extends Component {
 
   constructor(props){
     super(props);
-    this.state = {username: '',password: null};
+    this.state = {username: '',password: ''};
   }
 
   render() {
@@ -25,13 +25,14 @@ export default class Login extends Component {
             <Text style={styles.logo}>- NATIVE -</Text>
             <View style={styles.inputContainer}>
               <TextInput underlineColorAndroid="transparent" style={styles.input}
-                onChangeText={(username) => this.setState({username})} value={this.state.username}
+                onChangeText={(username) => this.setState({username})}
+                value={this.state.username}
                 placeholder="username" placeholderTextColor="silver"></TextInput>
               <TextInput style={styles.input}
                   secureTextEntry={true} underlineColorAndroid="transparent"
-                  onChangeText={(password) => this.setState({password})} value={this.state.password}
-                  placeholder="password" placeholderTextColor="silver"
-                  onChangeText={this.state.password}></TextInput>
+                  onChangeText={(password) => this.setState({password})}
+                  value={this.state.password}
+                  placeholder="password" placeholderTextColor="silver"></TextInput>
             </View>
             <TouchableOpacity onPress={this.login} style={styles.buttonContainer}>
               <Text style={styles.buttonText}>
@@ -49,7 +50,7 @@ export default class Login extends Component {
     //192.168.1.106
     fetch('http://192.168.1.106/ReactProjects/loginApp/backEnd/ReactLogin/public/users',{
         method: "Post",
-          header: {
+          headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
@@ -64,18 +65,23 @@ export default class Login extends Component {
         console.log(res);
         if(res.message === true){
           var username = res.user.username;
-          //we yse AsyncStorage to save the username
           AsyncStorage.setItem('username',username);
           this.props.navigator.push({
             id: 'Memberarea'
           });
         }else{
-          alert(res.error+", Now Local Login");
+          alert("you connect to network but "+res.error);
           AsyncStorage.setItem('username',this.state.username);
           this.props.navigator.push({
             id: 'Memberarea'
           });
         }
+      }).catch(error => {
+        alert("you didnt connect to network");
+        AsyncStorage.setItem('username',this.state.username);
+        this.props.navigator.push({
+          id: 'Memberarea'
+        });
       }).done();
   }
 }

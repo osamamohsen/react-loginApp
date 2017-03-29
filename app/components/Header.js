@@ -6,9 +6,24 @@ import {
   Text,
   Image,
   View,
+  AsyncStorage,
 } from 'react-native';
 
 export default class Header extends Component {
+
+  state = {username: ''};
+
+  componentDidMount(){
+    this._loadInitialState().done();
+  }
+
+  _loadInitialState = async () => {
+    var value = await AsyncStorage.getItem('username');
+    if(value != null){
+      this.setState({username: value});
+    }
+    // alert(value);
+  }
 
   render() {
 
@@ -18,7 +33,7 @@ export default class Header extends Component {
           <View style={styles.profilepicWrap}>
             <Image style={styles.profilepic} source={require('../img/profile.jpg')} />
           </View>
-          <Text style={styles.name}> John Dee</Text>
+          <Text style={styles.name}>{this.state.username}</Text>
           <Text style={styles.pos}>- App Developer -</Text>
         </View>
       </Image>
